@@ -131,7 +131,7 @@ namespace Adaptteen.Business.Concrete
             using (var context = new ConfigDbContextFactory().CreateDbContext())
             {
                 var now = DateTimeOffset.Now;
-                var course = await context.Course.FirstOrDefaultAsync(x => x.Id == dto.Id);
+                var course = await context.Category.FirstOrDefaultAsync(x => x.Id == dto.Id);
                 if (course != null)
                 {
                     course.Name = dto.Name;

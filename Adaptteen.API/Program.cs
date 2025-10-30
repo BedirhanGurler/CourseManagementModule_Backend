@@ -1,4 +1,4 @@
-using Adaptteen.Business.Abstract;
+﻿using Adaptteen.Business.Abstract;
 using Adaptteen.Business.Concrete;
 using Adaptteen.Common.Validations.Abstract;
 using Adaptteen.Common.Validations.Concrete;
@@ -9,28 +9,37 @@ var builder = WebApplication.CreateBuilder(args);
 ConfigurationManager configuration = builder.Configuration;
 
 // Add services to the container.
-
 builder.Services.AddTransient(typeof(ICourseService<>), typeof(CourseService<>));
 builder.Services.AddTransient(typeof(ICategoryService<>), typeof(CategoryService<>));
 builder.Services.AddScoped<IModelStateResponseService, ModelStateResponseManager>();
-
 
 builder.Services.AddDbContext<ConfigDbContext>(options =>
 {
     options.UseSqlServer(configuration.GetConnectionString("connstr")!, sqlOptions =>
     {
-        sqlOptions.UseNetTopologySuite(); // Enable NetTopologySuite support
+        sqlOptions.UseNetTopologySuite();
+    });
+});
+
+var corsPolicyName = "_allowFrontendOrigin";
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: corsPolicyName, policy =>
+    {
+        policy.WithOrigins("http://localhost:5173")
+              .AllowAnyHeader()
+              .AllowAnyMethod()
+              .AllowCredentials();
     });
 });
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -38,6 +47,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors(corsPolicyName);
 
 app.UseAuthorization();
 
