@@ -12,5 +12,6 @@ namespace Adaptteen.Business.Abstract
         Task<IDataResult<CourseDto?>> Delete(CourseDto dto);
         Task<IDataResult<CourseData?>> GetAllCourses();
         Task<IDataResult<CourseDto?>> GetCourse(Guid id);
+        Task<IDataResult<CourseDto?>> Activate(CourseDto dto);
     }
 }

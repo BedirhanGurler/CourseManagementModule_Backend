@@ -12,6 +12,23 @@ namespace Adaptteen.Business.Concrete
 {
     public class CourseService<TEntity> : BaseDal<TEntity, Guid>, ICourseService<TEntity> where TEntity : Course
     {
+        public async Task<IDataResult<CourseDto?>> Activate(CourseDto dto)
+        {
+            using (var context = new ConfigDbContextFactory().CreateDbContext())
+            {
+                var now = DateTimeOffset.Now;
+
+                var course = await context.Course.FirstOrDefaultAsync(c => c.Id == dto.Id);
+                if (course == null)
+                    return new DataResult<CourseDto?>(ResultStatus.NotFound, ResponseMessages.NotFound, null);
+
+                course.IsActive = true;
+                course.DateModified = now;
+                await context.SaveChangesAsync();
+                return new DataResult<CourseDto?>(ResultStatus.Success, ResponseMessages.Success, dto);
+            }
+        }
+
         public async Task<IDataResult<CourseDto?>> Create(CourseDto dto)
         {
             var now = DateTimeOffset.Now;

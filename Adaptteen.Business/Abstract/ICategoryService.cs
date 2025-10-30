@@ -12,5 +12,6 @@ namespace Adaptteen.Business.Abstract
         Task<IDataResult<CategoryDto?>> Delete(CategoryDto dto);
         Task<IDataResult<CategoryData?>> GetAllCategories();
         Task<IDataResult<CategoryDto?>> GetCategory(Guid id);
+        Task<IDataResult<CategoryDto?>> Activate(CategoryDto dto);
     }
 }

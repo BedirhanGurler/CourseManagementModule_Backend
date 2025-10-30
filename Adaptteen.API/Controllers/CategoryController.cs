@@ -55,6 +55,17 @@ namespace Adaptteen.API.Controllers
             return await _service.Delete(dto);
         }
 
+        [HttpPut]
+        [Route($"~{CourseModuleHttpRequestUrl.ActivateCategoryUrl}")]
+        public async Task<IDataResult<CategoryDto?>> Activate(CategoryDto dto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return new DataResult<CategoryDto?>(_modelStateResponseService.HandleErrorMessage(ModelState));
+            }
+            return await _service.Activate(dto);
+        }
+
         [HttpGet]
         [Route($"~{CourseModuleHttpRequestUrl.GetByIdCategoryUrl}")]
         public async Task<IDataResult<CategoryDto?>> GetById(Guid id)

@@ -12,6 +12,23 @@ namespace Adaptteen.Business.Concrete
 {
     public class CategoryService<TEntity> : BaseDal<TEntity, Guid>, ICategoryService<TEntity> where TEntity : Category
     {
+        public async Task<IDataResult<CategoryDto?>> Activate(CategoryDto dto)
+        {
+            using (var context = new ConfigDbContextFactory().CreateDbContext())
+            {
+                var now = DateTimeOffset.Now;
+
+                var course = await context.Category.FirstOrDefaultAsync(c => c.Id == dto.Id);
+                if (course == null)
+                    return new DataResult<CategoryDto?>(ResultStatus.NotFound, ResponseMessages.NotFound, null);
+
+                course.IsActive = true;
+                course.DateModified = now;
+                await context.SaveChangesAsync();
+                return new DataResult<CategoryDto?>(ResultStatus.Success, ResponseMessages.Success, dto);
+            }
+        }
+
         public async Task<IDataResult<CategoryDto?>> Create(CategoryDto dto)
         {
             var now = DateTimeOffset.Now;
