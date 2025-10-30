@@ -79,7 +79,7 @@ namespace Adaptteen.API.Controllers
 
         [HttpGet]
         [Route($"~{CourseModuleHttpRequestUrl.ListCategoryUrl}")]
-        public async Task<IDataResult<CategoryData?>> GetAllCourses()
+        public async Task<IDataResult<CategoryData?>> GetAllCategories()
         {
             if (!ModelState.IsValid)
             {
