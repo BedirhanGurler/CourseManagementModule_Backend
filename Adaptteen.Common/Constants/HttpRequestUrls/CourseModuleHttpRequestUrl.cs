@@ -7,7 +7,7 @@
         public const string DeleteCourseUrl = "/adaptteen/course/delete";
         public const string ListCourseUrl = "/adaptteen/course/list";
         public const string GetByIdCourseUrl = "/adaptteen/course/get/{id}";
-        public const string ActivateCourseUrl = "/adaptteen/category/activate";
+        public const string ActivateCourseUrl = "/adaptteen/course/activate";
 
         public const string CreateCategoryUrl = "/adaptteen/category/new";
         public const string UpdateCategoryUrl = "/adaptteen/category/update";
